@@ -13,8 +13,9 @@ export default function Navbar() {
   return (
     <nav className="navbar navbar-expand navbar-dark bg-primary mb-4">
       <div className="container">
-        <Link className="navbar-brand" to="/">
-          Clinic Booking
+       <Link className="navbar-brand d-flex align-items-center" to="/">
+        <img src="/favicon.svg" alt="" width="28" height="28" className="me-2" />
+                Clinic Booking
         </Link>
 
         <div className="navbar-nav me-auto">
