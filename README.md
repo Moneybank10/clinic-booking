@@ -20,9 +20,10 @@ A good way to explore: sign in as staff and create a slot for tomorrow, then reg
 
 ## Screenshots
 
-<!-- Add 3-4 screenshots to a /screenshots folder and link them here, for example: -->
-<!-- ![Open slots](screenshots/open-slots.png) -->
-<!-- ![Staff: manage slots](screenshots/manage-slots.png) -->
+[Open slots](screenshots/open-slots.png)
+[My appointments](screenshots/my-appointments.png)
+[Staff: manage slots](screenshots/manage-slots.png)
+[Staff: Today's appointments](screenshots/Today's-appointments.png)
 
 ## Features
 
