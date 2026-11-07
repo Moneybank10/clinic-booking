@@ -6,10 +6,8 @@ import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
 import OpenSlotsPage from './pages/OpenSlotsPage.jsx';
 import MyAppointmentsPage from './pages/MyAppointmentsPage.jsx';
-
-function Placeholder({ title }) {
-  return <h2>{title}</h2>;
-}
+import TodaySchedulePage from './pages/TodaySchedulePage.jsx';
+import ManageSlotsPage from './pages/ManageSlotsPage.jsx';
 
 function HomeRedirect() {
   const { user, loading } = useAuth();
@@ -33,23 +31,23 @@ export default function App() {
             path="/slots"
             element={
               <ProtectedRoute roles={['patient']}>
-  <OpenSlotsPage />
-</ProtectedRoute>
+                <OpenSlotsPage />
+              </ProtectedRoute>
             }
           />
           <Route
             path="/my-appointments"
             element={
               <ProtectedRoute roles={['patient']}>
-  <MyAppointmentsPage />
-</ProtectedRoute>
+                <MyAppointmentsPage />
+              </ProtectedRoute>
             }
           />
           <Route
             path="/today"
             element={
               <ProtectedRoute roles={['staff']}>
-                <Placeholder title="Today's Schedule" />
+                <TodaySchedulePage />
               </ProtectedRoute>
             }
           />
@@ -57,7 +55,7 @@ export default function App() {
             path="/manage-slots"
             element={
               <ProtectedRoute roles={['staff']}>
-                <Placeholder title="Manage Slots" />
+                <ManageSlotsPage />
               </ProtectedRoute>
             }
           />

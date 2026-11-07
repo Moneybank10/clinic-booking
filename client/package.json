@@ -9,6 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
+  "engines": {
+  "node": ">=20"
+},
   "dependencies": {
     "bootstrap": "^5.3.8",
     "react": "^19.3.1",
