@@ -165,4 +165,5 @@ Run it against your **local** database, not the demo deployment.
 
 ## Author
 
-Built by Taofeek ([@Moneybank10](https://github.com/Moneybank10)) as a portfolio project.
+Built by Taofeek ([@Moneybank10](https://github.com/Moneybank10)) as a portfolio project. 
+portfolio: https://moneybank1.netlify.app
