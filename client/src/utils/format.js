@@ -13,3 +13,7 @@ export function formatTime(iso) {
     minute: '2-digit',
   });
 }
+
+export function isPast(iso) {
+  return new Date(iso) < new Date();
+}

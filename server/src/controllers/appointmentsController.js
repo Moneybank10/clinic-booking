@@ -87,19 +87,21 @@ async function cancelAppointment(req, res, next) {
     }
 
     const { rows } = await pool.query(
-      `UPDATE appointments
-       SET status = 'cancelled', cancelled_at = now(),
-           cancelled_by = $2, cancel_reason = $3
-       WHERE id = $1
-         AND status = 'booked'
-         AND ($4 = 'staff' OR patient_id = $2)
-       RETURNING id, slot_id, status, cancelled_at, cancel_reason`,
-      [id, req.user.id, reason, req.user.role]
-    );
+  `UPDATE appointments
+   SET status = 'cancelled', cancelled_at = now(),
+       cancelled_by = $2, cancel_reason = $3
+   WHERE id = $1
+     AND status = 'booked'
+     AND ($4 = 'staff' OR patient_id = $2)
+     AND slot_id IN (SELECT id FROM slots WHERE start_time > now())
+   RETURNING id, slot_id, status, cancelled_at, cancel_reason`,
+  [id, req.user.id, reason, req.user.role]
+);
 
-    if (!rows[0]) {
-      return res.status(404).json({ error: 'No active appointment found with that id' });
-    }
+if (!rows[0]) {
+  return res.status(404).json({ error: 'No active, upcoming appointment found with that id' });
+}
+
     res.json({ appointment: rows[0] });
   } catch (err) {
     next(err);

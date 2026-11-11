@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { api } from '../api/api';
 import { useFetch } from '../hooks/useFetch';
 import CancelModal from '../components/CancelModal.jsx';
-import { formatTime } from '../utils/format';
+import { formatTime, isPast } from '../utils/format';
 
 export default function TodaySchedulePage() {
   const { data, loading, error, reload } = useFetch('/appointments/today');
@@ -54,12 +54,13 @@ export default function TodaySchedulePage() {
                   <td>{a.patient_name}</td>
                   <td>{a.patient_email}</td>
                   <td className="text-end">
-                    <button
-                      className="btn btn-outline-danger btn-sm"
-                      onClick={() => setCancelTarget(a)}
-                    >
-                      Cancel
-                    </button>
+                    {isPast(a.end_time) ? (
+  <span className="badge text-bg-dark">Past</span>
+) : (
+  <button className="btn btn-outline-danger btn-sm" onClick={() => setCancelTarget(a)}>
+    Cancel
+  </button>
+)}
                   </td>
                 </tr>
               ))}

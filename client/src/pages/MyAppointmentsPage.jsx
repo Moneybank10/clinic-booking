@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { api } from '../api/api';
 import { useFetch } from '../hooks/useFetch';
 import CancelModal from '../components/CancelModal.jsx';
-import { formatDate, formatTime } from '../utils/format';
+import { formatDate, formatTime, isPast } from '../utils/format';
 
 export default function MyAppointmentsPage() {
   const { data, loading, error, reload } = useFetch('/appointments/mine');
@@ -42,40 +42,46 @@ export default function MyAppointmentsPage() {
               </tr>
             </thead>
             <tbody>
-              {data.appointments.map((a) => (
-                <tr key={a.id}>
-                  <td>{formatDate(a.start_time)}</td>
-                  <td>
-                    {formatTime(a.start_time)} – {formatTime(a.end_time)}
-                  </td>
-                  <td>
-                    {a.status === 'booked' ? (
-                      <span className="badge text-bg-success">Booked</span>
-                    ) : (
-                      <span className="badge text-bg-secondary">Cancelled</span>
-                    )}
-                  </td>
-                  <td>
-                    {a.status === 'cancelled' && (
-                      <small className="text-muted">
-                        {a.cancelled_by_clinic ? 'Cancelled by the clinic' : 'Cancelled by you'}
-                        {a.cancel_reason && `: ${a.cancel_reason}`}
-                      </small>
-                    )}
-                  </td>
-                  <td className="text-end">
-                    {a.status === 'booked' && (
-                      <button
-                        className="btn btn-outline-danger btn-sm"
-                        onClick={() => setCancelTarget(a)}
-                      >
-                        Cancel
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+              {data.appointments.map((a) => {
+  const past = a.status === 'booked' && isPast(a.end_time);
+
+  return (
+    <tr key={a.id}>
+      <td>{formatDate(a.start_time)}</td>
+      <td>
+        {formatTime(a.start_time)} – {formatTime(a.end_time)}
+      </td>
+      <td>
+        {a.status === 'cancelled' ? (
+          <span className="badge text-bg-secondary">Cancelled</span>
+        ) : past ? (
+          <span className="badge text-bg-dark">Past</span>
+        ) : (
+          <span className="badge text-bg-success">Booked</span>
+        )}
+      </td>
+      <td>
+        {a.status === 'cancelled' && (
+          <small className="text-muted">
+            {a.cancelled_by_clinic ? 'Cancelled by the clinic' : 'Cancelled by you'}
+            {a.cancel_reason && `: ${a.cancel_reason}`}
+          </small>
+        )}
+      </td>
+      <td className="text-end">
+        {a.status === 'booked' && !past && (
+          <button
+            className="btn btn-outline-danger btn-sm"
+            onClick={() => setCancelTarget(a)}
+          >
+            Cancel
+          </button>
+        )}
+      </td>
+    </tr>
+  );
+})}
+</tbody>
           </table>
         </div>
       )}
